@@ -9,7 +9,23 @@ services:
 before_install:
     - docker build -t tunghoanganh2310/docker-react -f Dockerfile.dev .
 
-# `script` contains all the commands that need to be executed
-# to actually run our test suite
+# `script` contains commands that need to be executed to run our tests
 script:
     - docker run -e CI=true tunghoanganh2310/docker-react npm run test
+
+# `deploy` contains commands to deploy our application
+deploy:
+    provider: elasticbeanstalk
+    region: 'ap-southeast-1'
+    # name of the EB application we are deploying to
+    app: 'docker-react'
+    env: 'DockerReact-env'
+    # name of the S3 bucket that Travis will put our zip file into
+    bucket_name: 'elasticbeanstalk-ap-southeast-1-044678980542'
+    # folder inside the bucket
+    bucket_path: 'docker-react'
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: '$AWS_SECRET_KEY'
