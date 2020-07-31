@@ -12,4 +12,4 @@ before_install:
 # `script` contains all the commands that need to be executed
 # to actually run our test suite
 script:
-    - docker run tunghoanganh2310/docker-react npm run test -- --coverage
+    - docker run -e CI=true tunghoanganh2310/docker-react npm run test -- --coverage
